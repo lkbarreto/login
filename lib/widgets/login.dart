@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import './singup.dart';
 
 class Login extends StatelessWidget {
-  final Function() loginPressed;
+  final Function(String pass, String email) loginPressed;
 
   final TextEditingController _email = new TextEditingController();
   final TextEditingController _password = new TextEditingController();
@@ -35,6 +36,23 @@ class Login extends StatelessWidget {
                 ),
               ],
             ),
+          ),
+          new Container(
+            child: new Column(
+              children: <Widget>[
+                new FlatButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SingUp()),
+                    );
+                  },
+                  child: Text(
+                    "No tienes cuenta? Registrate",
+                  ),
+                ),
+              ],
+            ),
           )
         ],
       ),
@@ -50,7 +68,6 @@ class Login extends StatelessWidget {
               title: Text('Alerta'),
               content: Text('Campos incompletos!'),
               actions: <Widget>[
-              
                 FlatButton(
                     onPressed: () => Navigator.of(context).pop(),
                     child: Text('OK')),
@@ -58,7 +75,7 @@ class Login extends StatelessWidget {
             );
           });
     } else {
-      loginPressed();
+      loginPressed(_password.text, _email.text);
     }
   }
 }
