@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../model/user.dart';
 
 class SingUp extends StatelessWidget {
   final TextEditingController _email = new TextEditingController();
   final TextEditingController _password = new TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  String email,name,username,password;
 
   _addEmail() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -35,12 +37,35 @@ class SingUp extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             TextFormField(
+             // controller: _email,
+              decoration: new InputDecoration(labelText: 'Name'),
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'Campo requerido';
+                }
+                name=value;
+                return null;
+              },
+            ),
+            TextFormField(
+              //controller: _email,
+              decoration: new InputDecoration(labelText: 'Username'),
+              validator: (value) {
+                if (value.isEmpty) {
+                  return 'Campo requerido';
+                }
+                username=value;
+                return null;
+              },
+            ),
+            TextFormField(
               controller: _email,
               decoration: new InputDecoration(labelText: 'Email'),
               validator: (value) {
                 if (value.isEmpty) {
                   return 'Campo requerido';
                 }
+                email=value;
                 return null;
               },
             ),
@@ -51,6 +76,7 @@ class SingUp extends StatelessWidget {
                 if (value.isEmpty) {
                   return 'Campo requerido';
                 }
+                password=value;
                 return null;
               },
             ),
@@ -62,6 +88,8 @@ class SingUp extends StatelessWidget {
                   // Validate returns true if the form is valid, or false
                   // otherwise.
                   if (_formKey.currentState.validate()) {
+                    print("despues debe pasar algo");
+                    signUp(email:email, password: password,username: username, name: name);
                     _onPress(context);
                   }
                 },
