@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import './singup.dart';
+import '../model/user.dart';
+import '../model/model.dart';
+import 'package:provider/provider.dart';
 
 class Login extends StatelessWidget {
   final Function(String pass, String email) loginPressed;
@@ -32,7 +35,18 @@ class Login extends StatelessWidget {
               children: <Widget>[
                 new RaisedButton(
                   child: new Text('Login'),
-                  onPressed: () => _onPress(context),
+                  onPressed: () => _onPress(context)
+                                    /*signIn(email: _email.toString(), password: _password.toString())
+                                    .then((user) {
+                                    Provider.of<Model>(context, listen: false)
+                                    .setLoggedIn(user.username);
+                                            return _buildDialog(context, "Exito!", "Done");
+                                    }).catchError((error) {
+                                            return _buildDialog(context, "Error", error.toString());
+                                    }).timeout(Duration(seconds: 10), onTimeout: () {
+                                            return _buildDialog(context, "Error", "Timeout > 10secs");
+                                    })*/
+                                    ,
                 ),
               ],
             ),
