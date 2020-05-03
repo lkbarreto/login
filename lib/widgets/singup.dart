@@ -34,30 +34,55 @@ class SingUp extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            TextFormField(
-              controller: _email,
-              decoration: new InputDecoration(labelText: 'Email'),
-              validator: (value) {
-                if (value.isEmpty) {
-                  return 'Campo requerido';
-                }
-                return null;
-              },
+            new Container(
+              child: Center(
+                  child: new Icon(
+                Icons.group_add,
+                color: Colors.pink,
+                size: 80.0,
+                semanticLabel: 'Text to announce in accessibility modes',
+              )),
             ),
-            TextFormField(
-              controller: _password,
-              decoration: new InputDecoration(labelText: 'Password'),
-              validator: (value) {
-                if (value.isEmpty) {
-                  return 'Campo requerido';
-                }
-                return null;
-              },
-            ),
+            Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 16.0, horizontal: 13),
+                child: TextFormField(
+                  controller: _email,
+                  decoration: InputDecoration(
+                      labelText: 'Email',
+                      border: OutlineInputBorder(),
+                      prefixIcon: Icon(Icons.email)),
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Campo requerido';
+                    }
+                    return null;
+                  },
+                )),
+            Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 16.0, horizontal: 13),
+                child: TextFormField(
+                  controller: _password,
+                  decoration: new InputDecoration(
+                      labelText: 'Password',
+                      border: OutlineInputBorder(),
+                      prefixIcon: Icon(Icons.lock)),
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Campo requerido';
+                    }
+                    return null;
+                  },
+                )),
             Center(
                 child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
               child: RaisedButton(
+                color: Colors.blueAccent,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)),
+                textColor: Colors.white,
                 onPressed: () {
                   // Validate returns true if the form is valid, or false
                   // otherwise.

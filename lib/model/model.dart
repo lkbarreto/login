@@ -16,11 +16,13 @@ class Model extends ChangeNotifier {
   _setLogout() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool('loggedIn', false);
+    view();
   }
 
   _setLogin() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool('loggedIn', true);
+    view();
   }
 
   _getLogged() async {

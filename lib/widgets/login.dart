@@ -15,15 +15,31 @@ class Login extends StatelessWidget {
       child: new Column(
         children: <Widget>[
           new Container(
-            child: new TextField(
-              controller: _email,
-              decoration: new InputDecoration(labelText: 'Email'),
+            child: new Icon(
+              Icons.account_circle,
+              color: Colors.pink,
+              size: 80.0,
+              semanticLabel: 'Text to announce in accessibility modes',
             ),
           ),
           new Container(
+            padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 13),
+            child: new TextField(
+              controller: _email,
+              decoration: InputDecoration(
+                  labelText: 'Email',
+                  border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.email)),
+            ),
+          ),
+          new Container(
+             padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 13),
             child: new TextField(
               controller: _password,
-              decoration: new InputDecoration(labelText: 'Password'),
+              decoration: InputDecoration(
+                  labelText: 'Password',
+                  border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.lock)),
               obscureText: true,
             ),
           ),
@@ -32,6 +48,10 @@ class Login extends StatelessWidget {
               children: <Widget>[
                 new RaisedButton(
                   child: new Text('Login'),
+                  color: Colors.blueAccent,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20)),
+                  textColor: Colors.white,
                   onPressed: () => _onPress(context),
                 ),
               ],
