@@ -1,9 +1,10 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-String _email="";
-String _name="";
-String _token="";
+String _email = "";
+String _name = "";
+String _token = "";
+int _status = 0;
 
 Future<UserInfo> signUp(
     {String email, String password, String username, String name}) async {
@@ -47,14 +48,14 @@ Future<UserInfo> signIn({String email, String password}) async {
   print('${response.body}' + "Sign IN mio");
   print('${response.statusCode}');
   final body = jsonDecode(response.body);
-
+  _status = response.statusCode;
   if (response.statusCode == 200) {
     print('${response.body}');
     print('Email: ${body['email']}');
     print('Token: ${body['token']}');
-    _email='${body['email']}';
-    _name='${body['name']}';
-    _token='${body['token']}';
+    _email = '${body['email']}';
+    _name = '${body['name']}';
+    _token = '${body['token']}';
 
     return UserInfo.fromJson(json.decode(response.body));
   } else {
@@ -64,15 +65,22 @@ Future<UserInfo> signIn({String email, String password}) async {
   }
 }
 
-String getEmail(){
-return _email;
+String getEmail() {
+  return _email;
 }
-String getName(){
-return _name;
+
+String getName() {
+  return _name;
 }
-String getToken(){
-return _token;
+
+String getToken() {
+  return _token;
 }
+
+int getStatus() {
+  return _status;
+}
+
 class UserInfo {
   final String token;
   final String username;
@@ -87,6 +95,4 @@ class UserInfo {
       name: json['name'],
     );
   }
-
-  
 }

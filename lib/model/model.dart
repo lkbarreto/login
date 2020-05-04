@@ -14,6 +14,7 @@ class Model extends ChangeNotifier {
   String _email = "";
   String _token = "";
   String _name = "";
+  int _status = 0;
 
   _setLogout() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -62,19 +63,22 @@ class Model extends ChangeNotifier {
     _getLogged();
     switch (_state) {
       case WidgetMarker.Login:
+        _status = getStatus();
         _token = getToken();
         _email = getEmail();
         _name = getName();
 
         return Login(
           loginPressed: () {
+            _status = getStatus();
             _token = getToken();
             _email = getEmail();
             _name = getName();
             print(_token);
             print(_email);
             print(_name);
-            if (_token != "") {
+            print(_status);
+            if (_status == 200) {
               _setLogin();
               _setName();
               _setToken();
