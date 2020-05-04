@@ -7,7 +7,7 @@ class Login extends StatelessWidget {
 
   final TextEditingController _email = new TextEditingController();
   final TextEditingController _password = new TextEditingController();
-
+  String alertaa = "";
   Login({key, this.loginPressed}) : super(key: key);
 
   @override
@@ -79,7 +79,9 @@ class Login extends StatelessWidget {
       ),
     );
   }
-
+ void llenaralert(String alerta){
+  alertaa = alerta;
+}
   void _onPress(BuildContext context) {
     if (_password.text.isEmpty || _email.text.isEmpty) {
       showDialog(
@@ -95,7 +97,8 @@ class Login extends StatelessWidget {
               ],
             );
           });
-    } else {
+    }else{
+      getcontext(context);
       signIn(
         email: _email.text,
         password: _password.text,

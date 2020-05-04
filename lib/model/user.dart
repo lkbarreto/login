@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
@@ -5,6 +6,8 @@ String _email = "";
 String _name = "";
 String _token = "";
 int _status = 0;
+int _registerStatus = 0;
+BuildContext context2;
 
 Future<UserInfo> signUp(
     {String email, String password, String username, String name}) async {
@@ -24,6 +27,7 @@ Future<UserInfo> signUp(
   print('${response.body}' + "algo pasa aqui");
   print('${response.statusCode}');
   final body = jsonDecode(response.body);
+  _registerStatus = response.statusCode;
   if (response.statusCode == 200) {
     print('${response.body}');
     print('Email: ${body['email']}');
@@ -32,6 +36,8 @@ Future<UserInfo> signUp(
   } else {
     print("signup failed");
     print('${response.body}');
+    alert('${body['error']}');
+
     throw Exception(response.body);
   }
 }
@@ -61,8 +67,45 @@ Future<UserInfo> signIn({String email, String password}) async {
   } else {
     print("signup failed");
     print('${response.body}');
+    alert('${body['error']}');
+
+    print('Error: ${body['error']}');
     throw Exception(response.body);
   }
+}
+
+Future<UserInfo> resetDB() async {
+  final http.Response response = await http.post(
+    'https://movil-api.herokuapp.com/:dbId/restart',
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+  );
+
+  print('${response.body}' + "algo pasa aqui");
+  print('${response.statusCode}');
+
+  _registerStatus = response.statusCode;
+}
+
+void getcontext(BuildContext context) {
+  context2 = context;
+}
+
+alert(String alerta) {
+  showDialog(
+      context: context2,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Alerta'),
+          content: Text(alerta),
+          actions: <Widget>[
+            FlatButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: Text('OK')),
+          ],
+        );
+      });
 }
 
 String getEmail() {
@@ -79,6 +122,10 @@ String getToken() {
 
 int getStatus() {
   return _status;
+}
+
+int getRegisterStatus() {
+  return _registerStatus;
 }
 
 class UserInfo {

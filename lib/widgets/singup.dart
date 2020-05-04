@@ -127,12 +127,16 @@ class SingUp extends StatelessWidget {
                   // otherwise.
                   if (_formKey.currentState.validate()) {
                     print("despues debe pasar algo");
+                    getcontext(context);
                     signUp(
                         email: _email.text,
                         password: _password.text,
                         username: _username.text,
                         name: _name.text);
-                    _onPress(context);
+                    int status = getRegisterStatus();
+                    if (status == 200) {
+                      _onPress(context);
+                    }
                   }
                 },
                 child: Text('Registrarme'),
@@ -148,6 +152,7 @@ class SingUp extends StatelessWidget {
     _addEmail();
     _addPass();
     _addlogin();
+
     showDialog(
         context: context,
         builder: (context) {
