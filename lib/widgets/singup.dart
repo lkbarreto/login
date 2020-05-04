@@ -127,6 +127,7 @@ class SingUp extends StatelessWidget {
                   // otherwise.
                   if (_formKey.currentState.validate()) {
                     print("despues debe pasar algo");
+                    getcontext(context);
                     signUp(
                         email: _email.text,
                         password: _password.text,

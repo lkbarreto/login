@@ -1,9 +1,12 @@
+import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import '../widgets/login.dart';
 
 String _email="";
 String _name="";
 String _token="";
+BuildContext context2;
 
 Future<UserInfo> signUp(
     {String email, String password, String username, String name}) async {
@@ -31,6 +34,8 @@ Future<UserInfo> signUp(
   } else {
     print("signup failed");
     print('${response.body}');
+    alert('${body['error']}');
+    
     throw Exception(response.body);
   }
 }
@@ -60,8 +65,31 @@ Future<UserInfo> signIn({String email, String password}) async {
   } else {
     print("signup failed");
     print('${response.body}');
+    alert('${body['error']}');
+    
+    print('Error: ${body['error']}');
     throw Exception(response.body);
   }
+}
+
+void getcontext(BuildContext context){
+    context2 =context;
+}
+
+alert(String alerta){
+          showDialog(
+          context: context2,
+          builder: (context) {
+            return AlertDialog(
+              title: Text('Alerta'),
+              content: Text(alerta),
+              actions: <Widget>[
+                FlatButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: Text('OK')),
+              ],
+            );
+          });
 }
 
 String getEmail(){
