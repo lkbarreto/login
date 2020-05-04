@@ -3,7 +3,7 @@ import './singup.dart';
 import '../model/user.dart';
 
 class Login extends StatelessWidget {
-  final Function(String pass, String email) loginPressed;
+  final Function() loginPressed;
 
   final TextEditingController _email = new TextEditingController();
   final TextEditingController _password = new TextEditingController();
@@ -99,8 +99,7 @@ class Login extends StatelessWidget {
       signIn(
         email: _email.text,
         password: _password.text,
-      );
-      loginPressed(_password.text, _email.text);
+      ).then(loginPressed());
     }
   }
 }
