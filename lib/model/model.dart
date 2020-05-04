@@ -4,7 +4,7 @@ import '../widgets/logout.dart';
 import '../widgets/login.dart';
 import '../model/user.dart';
 
-enum WidgetMarker { Login, Logout, UserInfo }
+enum WidgetMarker { Login, Logout, Usernfo }
 
 class Model extends ChangeNotifier {
   WidgetMarker _state = WidgetMarker.Login;
@@ -12,7 +12,8 @@ class Model extends ChangeNotifier {
   String _text = "Ingrese";
   bool _logged = false;
   String _email = "";
-  String _password = "";
+  String _token = "";
+  String _name = "";
 
   _setLogout() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -26,19 +27,21 @@ class Model extends ChangeNotifier {
     view();
   }
 
+  _setToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('token', _token);
+    view();
+  }
+
+  _setName() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('name', _name);
+    view();
+  }
+
   _getLogged() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     _logged = (prefs.getBool('loggedIn') ?? false);
-  }
-
-  _getEmail() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    _email = (prefs.getString('email') ?? "...");
-  }
-
-  _getPass() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    _password = (prefs.getString('password') ?? "...");
   }
 
   WidgetMarker get state => _state;
@@ -47,7 +50,7 @@ class Model extends ChangeNotifier {
 
   void view() {
     if (_logged) {
-      _text = "Bienvenido";
+      _text = "Bienvenido " + _name;
       changeValue(WidgetMarker.Logout);
     } else {
       _text = "Ingrese";
@@ -59,26 +62,35 @@ class Model extends ChangeNotifier {
     _getLogged();
     switch (_state) {
       case WidgetMarker.Login:
-        return Login(
-          loginPressed: (pass, email) {
-            _getEmail();
-            _getPass();
+        _token = getToken();
+        _email = getEmail();
+        _name = getName();
 
-            _setLogin();
-            view();
+        return Login(
+          loginPressed: () {
+            _token = getToken();
+            _email = getEmail();
+            _name = getName();
+            print(_token);
+            print(_email);
+            print(_name);
+            if (_token != "") {
+              _setLogin();
+              _setName();
+              _setToken();
+              view();
+            }
           },
         );
       case WidgetMarker.Logout:
         return Logout(logoutPressed: () {
           _setLogout();
+          _token = "";
           view();
         });
       default:
         return Login(
-          loginPressed: (pass, email) {
-            _getEmail();
-            _getPass();
-          },
+          loginPressed: () {},
         );
     }
   }

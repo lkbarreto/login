@@ -1,6 +1,10 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
+String _email="";
+String _name="";
+String _token="";
+
 Future<UserInfo> signUp(
     {String email, String password, String username, String name}) async {
   final http.Response response = await http.post(
@@ -18,14 +22,11 @@ Future<UserInfo> signUp(
 
   print('${response.body}' + "algo pasa aqui");
   print('${response.statusCode}');
-
   final body = jsonDecode(response.body);
   if (response.statusCode == 200) {
     print('${response.body}');
-    print('${body['token']}');
-    print('${body['name']}');
-    print('${body['email']}');
-
+    print('Email: ${body['email']}');
+    print('Token: ${body['token']}');
     return UserInfo.fromJson(json.decode(response.body));
   } else {
     print("signup failed");
@@ -45,8 +46,16 @@ Future<UserInfo> signIn({String email, String password}) async {
 
   print('${response.body}' + "Sign IN mio");
   print('${response.statusCode}');
+  final body = jsonDecode(response.body);
+
   if (response.statusCode == 200) {
     print('${response.body}');
+    print('Email: ${body['email']}');
+    print('Token: ${body['token']}');
+    _email='${body['email']}';
+    _name='${body['name']}';
+    _token='${body['token']}';
+
     return UserInfo.fromJson(json.decode(response.body));
   } else {
     print("signup failed");
@@ -55,6 +64,15 @@ Future<UserInfo> signIn({String email, String password}) async {
   }
 }
 
+String getEmail(){
+return _email;
+}
+String getName(){
+return _name;
+}
+String getToken(){
+return _token;
+}
 class UserInfo {
   final String token;
   final String username;
@@ -69,4 +87,6 @@ class UserInfo {
       name: json['name'],
     );
   }
+
+  
 }
