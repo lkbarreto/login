@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../widgets/logout.dart';
 import '../widgets/login.dart';
+import '../model/user.dart';
 
-enum WidgetMarker { Login, Logout }
+enum WidgetMarker { Login, Logout, UserInfo }
+
 
 class Model extends ChangeNotifier {
   WidgetMarker _state = WidgetMarker.Login;

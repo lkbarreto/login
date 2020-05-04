@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import './singup.dart';
+import '../model/user.dart';
 
 class Login extends StatelessWidget {
   final Function(String pass, String email) loginPressed;
@@ -33,7 +34,7 @@ class Login extends StatelessWidget {
             ),
           ),
           new Container(
-             padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 13),
+            padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 13),
             child: new TextField(
               controller: _password,
               decoration: InputDecoration(
@@ -95,6 +96,10 @@ class Login extends StatelessWidget {
             );
           });
     } else {
+      signIn(
+        email: _email.text,
+        password: _password.text,
+      );
       loginPressed(_password.text, _email.text);
     }
   }
