@@ -5,8 +5,9 @@ import '../model/user.dart';
 class SingUp extends StatelessWidget {
   final TextEditingController _email = new TextEditingController();
   final TextEditingController _password = new TextEditingController();
+  final TextEditingController _name = new TextEditingController();
+  final TextEditingController _username = new TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  String email,name,username,password;
 
   _addEmail() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -26,6 +27,7 @@ class SingUp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
       appBar: AppBar(
         title: Text("Registro"),
       ),
@@ -36,60 +38,100 @@ class SingUp extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            TextFormField(
-             // controller: _email,
-              decoration: new InputDecoration(labelText: 'Name'),
-              validator: (value) {
-                if (value.isEmpty) {
-                  return 'Campo requerido';
-                }
-                name=value;
-                return null;
-              },
-            ),
-            TextFormField(
-              //controller: _email,
-              decoration: new InputDecoration(labelText: 'Username'),
-              validator: (value) {
-                if (value.isEmpty) {
-                  return 'Campo requerido';
-                }
-                username=value;
-                return null;
-              },
-            ),
-            TextFormField(
-              controller: _email,
-              decoration: new InputDecoration(labelText: 'Email'),
-              validator: (value) {
-                if (value.isEmpty) {
-                  return 'Campo requerido';
-                }
-                email=value;
-                return null;
-              },
-            ),
-            TextFormField(
-              controller: _password,
-              decoration: new InputDecoration(labelText: 'Password'),
-              validator: (value) {
-                if (value.isEmpty) {
-                  return 'Campo requerido';
-                }
-                password=value;
-                return null;
-              },
-            ),
+            Center(
+                child: new Icon(
+              Icons.group_add,
+              color: Colors.pink,
+              size: 80.0,
+              semanticLabel: 'Text to announce in accessibility modes',
+            )),
+            Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 16.0, horizontal: 13),
+                child: TextFormField(
+                  controller: _name,
+                  decoration: new InputDecoration(
+                      labelText: 'Name',
+                      border: OutlineInputBorder(),
+                      prefixIcon: Icon(Icons.account_circle)),
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Campo requerido';
+                    }
+
+                    return null;
+                  },
+                )),
+            Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 16.0, horizontal: 13),
+                child: TextFormField(
+                  controller: _username,
+                  decoration: new InputDecoration(
+                      labelText: 'Username',
+                      border: OutlineInputBorder(),
+                      prefixIcon: Icon(Icons.assignment_ind)),
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Campo requerido';
+                    }
+
+                    return null;
+                  },
+                )),
+            Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 16.0, horizontal: 13),
+                child: TextFormField(
+                  controller: _email,
+                  decoration: new InputDecoration(
+                      labelText: 'Email',
+                      border: OutlineInputBorder(),
+                      prefixIcon: Icon(Icons.email)),
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Campo requerido';
+                    }
+
+                    return null;
+                  },
+                )),
+            Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 16.0, horizontal: 13),
+                child: TextFormField(
+                  controller: _password,
+                  obscureText: true,
+                  decoration: new InputDecoration(
+                      labelText: 'Password',
+                      border: OutlineInputBorder(),
+                      prefixIcon: Icon(Icons.lock)),
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Campo requerido';
+                    }
+
+                    return null;
+                  },
+                )),
             Center(
                 child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 16.0),
               child: RaisedButton(
+                color: Colors.blueAccent,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)),
+                textColor: Colors.white,
                 onPressed: () {
                   // Validate returns true if the form is valid, or false
                   // otherwise.
                   if (_formKey.currentState.validate()) {
                     print("despues debe pasar algo");
-                    signUp(email:email, password: password,username: username, name: name);
+                    signUp(
+                        email: _email.text,
+                        password: _password.text,
+                        username: _username.text,
+                        name: _name.text);
                     _onPress(context);
                   }
                 },

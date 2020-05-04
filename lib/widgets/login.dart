@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import './singup.dart';
 import '../model/user.dart';
-import '../model/model.dart';
-import 'package:provider/provider.dart';
 
 class Login extends StatelessWidget {
   final Function(String pass, String email) loginPressed;
@@ -18,15 +16,31 @@ class Login extends StatelessWidget {
       child: new Column(
         children: <Widget>[
           new Container(
-            child: new TextField(
-              controller: _email,
-              decoration: new InputDecoration(labelText: 'Email'),
+            child: new Icon(
+              Icons.account_circle,
+              color: Colors.pink,
+              size: 80.0,
+              semanticLabel: 'Text to announce in accessibility modes',
             ),
           ),
           new Container(
+            padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 13),
+            child: new TextField(
+              controller: _email,
+              decoration: InputDecoration(
+                  labelText: 'Email',
+                  border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.email)),
+            ),
+          ),
+          new Container(
+            padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 13),
             child: new TextField(
               controller: _password,
-              decoration: new InputDecoration(labelText: 'Password'),
+              decoration: InputDecoration(
+                  labelText: 'Password',
+                  border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.lock)),
               obscureText: true,
             ),
           ),
@@ -35,18 +49,11 @@ class Login extends StatelessWidget {
               children: <Widget>[
                 new RaisedButton(
                   child: new Text('Login'),
-                  onPressed: () => _onPress(context)
-                                    /*signIn(email: _email.toString(), password: _password.toString())
-                                    .then((user) {
-                                    Provider.of<Model>(context, listen: false)
-                                    .setLoggedIn(user.username);
-                                            return _buildDialog(context, "Exito!", "Done");
-                                    }).catchError((error) {
-                                            return _buildDialog(context, "Error", error.toString());
-                                    }).timeout(Duration(seconds: 10), onTimeout: () {
-                                            return _buildDialog(context, "Error", "Timeout > 10secs");
-                                    })*/
-                                    ,
+                  color: Colors.blueAccent,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20)),
+                  textColor: Colors.white,
+                  onPressed: () => _onPress(context),
                 ),
               ],
             ),
@@ -89,6 +96,10 @@ class Login extends StatelessWidget {
             );
           });
     } else {
+      signIn(
+        email: _email.text,
+        password: _password.text,
+      );
       loginPressed(_password.text, _email.text);
     }
   }
