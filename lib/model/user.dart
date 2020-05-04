@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../widgets/login.dart';
 
-String _email="";
-String _name="";
-String _token="";
+String _email = "";
+String _name = "";
+String _token = "";
+int _status = 0;
+int _registerStatus = 0;
 BuildContext context2;
 
 Future<UserInfo> signUp(
@@ -26,6 +27,7 @@ Future<UserInfo> signUp(
   print('${response.body}' + "algo pasa aqui");
   print('${response.statusCode}');
   final body = jsonDecode(response.body);
+  _registerStatus = response.statusCode;
   if (response.statusCode == 200) {
     print('${response.body}');
     print('Email: ${body['email']}');
@@ -35,7 +37,7 @@ Future<UserInfo> signUp(
     print("signup failed");
     print('${response.body}');
     alert('${body['error']}');
-    
+
     throw Exception(response.body);
   }
 }
@@ -52,55 +54,80 @@ Future<UserInfo> signIn({String email, String password}) async {
   print('${response.body}' + "Sign IN mio");
   print('${response.statusCode}');
   final body = jsonDecode(response.body);
-
+  _status = response.statusCode;
   if (response.statusCode == 200) {
     print('${response.body}');
     print('Email: ${body['email']}');
     print('Token: ${body['token']}');
-    _email='${body['email']}';
-    _name='${body['name']}';
-    _token='${body['token']}';
+    _email = '${body['email']}';
+    _name = '${body['name']}';
+    _token = '${body['token']}';
 
     return UserInfo.fromJson(json.decode(response.body));
   } else {
     print("signup failed");
     print('${response.body}');
     alert('${body['error']}');
-    
+
     print('Error: ${body['error']}');
     throw Exception(response.body);
   }
 }
 
-void getcontext(BuildContext context){
-    context2 =context;
+Future<UserInfo> resetDB() async {
+  final http.Response response = await http.post(
+    'https://movil-api.herokuapp.com/:dbId/restart',
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+  );
+
+  print('${response.body}' + "algo pasa aqui");
+  print('${response.statusCode}');
+
+  _registerStatus = response.statusCode;
 }
 
-alert(String alerta){
-          showDialog(
-          context: context2,
-          builder: (context) {
-            return AlertDialog(
-              title: Text('Alerta'),
-              content: Text(alerta),
-              actions: <Widget>[
-                FlatButton(
-                    onPressed: () => Navigator.of(context).pop(),
-                    child: Text('OK')),
-              ],
-            );
-          });
+void getcontext(BuildContext context) {
+  context2 = context;
 }
 
-String getEmail(){
-return _email;
+alert(String alerta) {
+  showDialog(
+      context: context2,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Alerta'),
+          content: Text(alerta),
+          actions: <Widget>[
+            FlatButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: Text('OK')),
+          ],
+        );
+      });
 }
-String getName(){
-return _name;
+
+String getEmail() {
+  return _email;
 }
-String getToken(){
-return _token;
+
+String getName() {
+  return _name;
 }
+
+String getToken() {
+  return _token;
+}
+
+int getStatus() {
+  return _status;
+}
+
+int getRegisterStatus() {
+  return _registerStatus;
+}
+
 class UserInfo {
   final String token;
   final String username;
@@ -115,6 +142,4 @@ class UserInfo {
       name: json['name'],
     );
   }
-
-  
 }
