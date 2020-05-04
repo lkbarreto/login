@@ -6,7 +6,6 @@ import '../model/user.dart';
 
 enum WidgetMarker { Login, Logout, UserInfo }
 
-
 class Model extends ChangeNotifier {
   WidgetMarker _state = WidgetMarker.Login;
 
@@ -64,10 +63,9 @@ class Model extends ChangeNotifier {
           loginPressed: (pass, email) {
             _getEmail();
             _getPass();
-            if (pass == _password && email == _email) {
-              _setLogin();
-              view();
-            }
+
+            _setLogin();
+            view();
           },
         );
       case WidgetMarker.Logout:

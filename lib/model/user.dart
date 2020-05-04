@@ -18,8 +18,14 @@ Future<UserInfo> signUp(
 
   print('${response.body}' + "algo pasa aqui");
   print('${response.statusCode}');
+
+  final body = jsonDecode(response.body);
   if (response.statusCode == 200) {
     print('${response.body}');
+    print('${body['token']}');
+    print('${body['name']}');
+    print('${body['email']}');
+
     return UserInfo.fromJson(json.decode(response.body));
   } else {
     print("signup failed");

@@ -99,8 +99,7 @@ class Login extends StatelessWidget {
       signIn(
         email: _email.text,
         password: _password.text,
-      );
-      loginPressed(_password.text, _email.text);
+      ).then(loginPressed(_password.text, _email.text));
     }
   }
 }
