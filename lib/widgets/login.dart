@@ -13,6 +13,7 @@ class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Container(
+      child: SingleChildScrollView(
       child: new Column(
         children: <Widget>[
           new Container(
@@ -76,7 +77,7 @@ class Login extends StatelessWidget {
             ),
           )
         ],
-      ),
+      )),
     );
   }
  void llenaralert(String alerta){

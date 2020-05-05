@@ -32,9 +32,11 @@ class SingUp extends StatelessWidget {
         title: Text("Registro"),
       ),
       body: Center(
+        
           child: Container(
               child: new Form(
         key: _formKey,
+        child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -143,7 +145,7 @@ class SingUp extends StatelessWidget {
               ),
             )),
           ],
-        ),
+        )),
       ))),
     );
   }
